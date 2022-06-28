@@ -62,13 +62,45 @@
       background: black;
       position: absolute;
       top: 50%;
+      transform-origin: 100%; /* lets the hand rotate around the center of the clock */
+      transform: rotate(90deg); /* puts the hand vertically */
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(0.1, 2.71, 0.58, 1);
     }
 
   </style>
 
   <script>
+    const secondHand = document.querySelector('.second-hand');
+    const minsHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
 
+    function setDate() {
+      // get the current date and store it into a variable
+      const now = new Date();
+      // retrieve seconds from current date
+      const seconds = now.getSeconds();
+      // convert the current seconds to degrees
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      // interpolate the degrees in our css transform rotate
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
+      // retrieve mins from current date
+      const mins = now.getMinutes();
+      // convert the current minutes to degrees
+      const minsDegrees = ((mins / 60) * 360) + 90;
+      // interpolate the degrees in our css transform rotate
+      minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+      // retrieve hours from current date
+      const hours = now.getHours();
+      // convert the current hours to degrees
+      const hoursDegrees = ((hours / 12) * 360) + 90;
+      // interpolate the degrees in our css transform rotate
+      hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+    }
+
+    setInterval(setDate, 1000);
   </script>
 </body>
 </html>
